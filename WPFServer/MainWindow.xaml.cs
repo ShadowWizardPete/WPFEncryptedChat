@@ -31,7 +31,7 @@ namespace WPFServer
         {
             listener = new TcpListener(IPAddress.Any, 9000);
             listener.Start();
-            txtChat.AppendText("Server avviato...\n");
+            txtChat.AppendText("Server started...\n");
             rsaServer = RSA.Create();
             while (true)
             {
@@ -70,11 +70,11 @@ namespace WPFServer
                     bool isVerified = clientInfo.RsaForClient.VerifyData(Encoding.UTF8.GetBytes(message),signature,HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1);
                     if (!isVerified)
                     {
-                        Dispatcher.Invoke(() => txtChat.AppendText("Messaggio NON AUTENTICO da client!\n"));
+                        Dispatcher.Invoke(() => txtChat.AppendText("Unauthentic message from client!\n"));
                         continue;
                     }
-                    Dispatcher.Invoke(() => txtChat.AppendText("Client autenticato: " + message + "\n"));
-                    byte[] responseData = Encoding.UTF8.GetBytes("Server ricevuto: " + message);
+                    Dispatcher.Invoke(() => txtChat.AppendText("Authenticated client: " + message + "\n"));
+                    byte[] responseData = Encoding.UTF8.GetBytes("Server received: " + message);
                     byte[] signatureResponse = rsaServer.SignData(responseData,HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1);
                     byte[] encryptedResponse = clientInfo.RsaForClient.Encrypt(responseData, RSAEncryptionPadding.Pkcs1);
                     string toSend = Convert.ToBase64String(encryptedResponse) + "|" + Convert.ToBase64String(signatureResponse);

@@ -38,11 +38,11 @@ namespace WPFClient
                 string base64ClientPubKey = Convert.ToBase64String(rsaClient.ExportSubjectPublicKeyInfo());
                 await writer.WriteLineAsync(base64ClientPubKey);
                 _ = Task.Run(ReceiveMessages);
-                txtChat.AppendText("Connesso con crittografia e firma digitale RSA.\n");
+                txtChat.AppendText("Connected with RSA encryption and digital signature.\n");
             }
             catch (Exception ex)
             {
-                txtChat.AppendText("Errore connessione: " + ex.Message + "\n");
+                txtChat.AppendText("Error during connection: " + ex.Message + "\n");
             }
         }
 
@@ -62,10 +62,10 @@ namespace WPFClient
                     bool isVerified = rsaServerPublic.VerifyData(Encoding.UTF8.GetBytes(message),signature,HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1);
                     if (!isVerified)
                     {
-                        Dispatcher.Invoke(() => txtChat.AppendText("Messaggio NON AUTENTICO da server!\n"));
+                        Dispatcher.Invoke(() => txtChat.AppendText("Unauthentic message from server!\n"));
                         continue;
                     }
-                    Dispatcher.Invoke(() => txtChat.AppendText("Server autenticato: " + message + "\n"));
+                    Dispatcher.Invoke(() => txtChat.AppendText("Authenticated server: " + message + "\n"));
                 }
             }
             catch { }
@@ -82,12 +82,12 @@ namespace WPFClient
                 byte[] encryptedData = rsaServerPublic.Encrypt(msgBytes, RSAEncryptionPadding.Pkcs1);
                 string toSend = Convert.ToBase64String(encryptedData) + "|" + Convert.ToBase64String(signature);
                 await writer.WriteLineAsync(toSend);
-                Dispatcher.Invoke(() => txtChat.AppendText("Tu: " + msg + "\n"));
+                Dispatcher.Invoke(() => txtChat.AppendText("You: " + msg + "\n"));
                 txtMsg.Clear();
             }
             catch (Exception ex)
             {
-                txtChat.AppendText("Errore invio: " + ex.Message + "\n");
+                txtChat.AppendText("Error during sending: " + ex.Message + "\n");
             }
         }
 

@@ -8,7 +8,7 @@
         Title="Server" Height="450" Width="800">
     <Grid>
         <TextBox Name="txtChat" IsReadOnly="True" HorizontalAlignment="Left" Margin="20,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="280" Height="380"/>
-        <Button Name="btnSend" Click="btnSend_Click" Content="Invia" HorizontalAlignment="Left" Margin="347,78,0,0" VerticalAlignment="Top"/>
+        <Button Name="btnSend" Click="btnSend_Click" Content="Send" HorizontalAlignment="Left" Margin="347,78,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtMsg" HorizontalAlignment="Left" Margin="347,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="415" Height="41"/>
     </Grid>
 </Window>
